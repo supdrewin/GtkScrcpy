@@ -1,9 +1,11 @@
-use std::cell::Cell;
-use std::rc::Rc;
+use std::{cell::Cell, rc::Rc};
 
-use gtk::glib::clone;
-use gtk::{glib, Application, Button, Orientation};
-use gtk::{prelude::*, ApplicationWindow};
+use adw::Application;
+use gtk::{
+    glib::{self, clone},
+    prelude::*,
+    ApplicationWindow, Button, Orientation,
+};
 
 const APP_ID: &str = "org.gtk_rs.HelloWorld2";
 
@@ -11,7 +13,6 @@ fn main() -> glib::ExitCode {
     let app = Application::builder().application_id(APP_ID).build();
 
     app.connect_activate(build_ui);
-
     app.run()
 }
 
@@ -23,6 +24,7 @@ fn build_ui(app: &Application) {
         .margin_start(12)
         .margin_end(12)
         .build();
+
     let button_decrease = Button::builder()
         .label("Decrease")
         .margin_top(12)
@@ -55,6 +57,7 @@ fn build_ui(app: &Application) {
     let gtk_box = gtk::Box::builder()
         .orientation(Orientation::Vertical)
         .build();
+
     gtk_box.append(&button_increase);
     gtk_box.append(&button_decrease);
 
