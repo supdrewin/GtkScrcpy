@@ -2,9 +2,10 @@ use std::{cell::Cell, rc::Rc};
 
 use adw::Application;
 use gtk::{
+    gio::Settings,
     glib::{self, clone},
     prelude::*,
-    ApplicationWindow, Button, Orientation,
+    Align, ApplicationWindow, Button, Orientation, Switch,
 };
 
 const APP_ID: &str = "org.GtkScrcpy.GtkScrcpy";
@@ -17,6 +18,28 @@ fn main() -> glib::ExitCode {
 }
 
 fn build_ui(app: &Application) {
+    let settings = Settings::new(APP_ID);
+
+    let switch = Switch::builder()
+        .margin_top(48)
+        .margin_bottom(48)
+        .margin_start(48)
+        .margin_end(48)
+        .valign(Align::Center)
+        .halign(Align::Center)
+        .build();
+
+    settings
+        .bind("is-switch-enabled", &switch, "active")
+        .build();
+
+    switch.connect_state_set(move |_, is_enabled| {
+        settings
+            .set_boolean("is-switch-enabled", is_enabled)
+            .expect("Could not set settings.");
+        glib::Propagation::Proceed
+    });
+
     let button_increase = Button::builder()
         .label("Increase")
         .margin_top(12)
@@ -45,6 +68,7 @@ fn build_ui(app: &Application) {
             button_decrease.set_label(&number.get().to_string());
         }
     ));
+
     button_decrease.connect_clicked(clone!(
         #[weak]
         button_increase,
@@ -60,10 +84,11 @@ fn build_ui(app: &Application) {
 
     gtk_box.append(&button_increase);
     gtk_box.append(&button_decrease);
+    gtk_box.append(&switch);
 
     let window = ApplicationWindow::builder()
         .application(app)
-        .title("My GTK App")
+        .title("GtkScrcpy")
         .child(&gtk_box)
         .build();
 
