@@ -8,7 +8,7 @@ use gtk::{
     Align, ApplicationWindow, Button, Orientation, Switch,
 };
 
-const APP_ID: &str = "org.GtkScrcpy.GtkScrcpy";
+const APP_ID: &str = "gdpu.supdrewin.GtkScrcpy";
 
 fn main() -> glib::ExitCode {
     let app = Application::builder().application_id(APP_ID).build();
