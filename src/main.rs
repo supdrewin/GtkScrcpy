@@ -7,7 +7,7 @@ use gtk::{
     ApplicationWindow, Button, Orientation,
 };
 
-const APP_ID: &str = "org.gtk_rs.HelloWorld2";
+const APP_ID: &str = "org.GtkScrcpy.GtkScrcpy";
 
 fn main() -> glib::ExitCode {
     let app = Application::builder().application_id(APP_ID).build();
